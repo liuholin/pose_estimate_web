@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+    <script src="/static/jquery-2.0.3.js"></script>
+</head>
+<body>
+<div id="recv"></div>
+
+<script>
+    function check(){
+        $.ajax({
+        type: 'GET',
+        url: '/api/',
+        success:function (res) {
+            if (res.data < 120)
+                $('#recv').html("stand up")
+            else
+                $('#recv').html("lay")
+        }
+    })
+    }
+    setInterval(check, 300);
+</script>
+
+</body>
+</html>
