@@ -140,19 +140,23 @@ html, body {
         dateList.push(now);
 
         // $("#imgId").attr('src', 'img/run.gif');
-		    $.ajax({
-		        type: 'GET',
-		        url: '/api/',
-		        success:function (res) {
-		            // if (res.data < 120)
-		            //     $('#recv').html("stand up")
-		            // else
-		            //     $('#recv').html("lay")
-				        current_data_yaw = res.yaw;
-		            current_data_roll = res.roll;
-		            current_data_pitch = res.pitch;
-		            predictions = res.predictions;
-
+		    // $.ajax({
+		    //     type: 'GET',
+		    //     url: '/api/',
+		    //     success:function (res) {
+		    //         // if (res.data < 120)
+		    //         //     $('#recv').html("stand up")
+		    //         // else
+		    //         //     $('#recv').html("lay")
+				//         current_data_yaw = res.yaw;
+		    //         current_data_roll = res.roll;
+		    //         current_data_pitch = res.pitch;
+		    //         predictions = res.predictions;
+				$.getJSON('/htbin/count.py', function(result) {
+						current_data_yaw_one = result.pitch_one;
+						current_data_yaw_two = result.pitch_two;
+						current_data_ridar = result.height;
+						predictions = result.predictions;
 		            /*
 		            * explain the variable of predictions
 		            * 0: lay
