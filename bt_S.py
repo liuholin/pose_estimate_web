@@ -1,4 +1,4 @@
-import serial 
+import serial
 import socket
 import pickle
 import time
@@ -136,7 +136,7 @@ while True:
         elif cnt == 9 and passage == 2:
             arrsum = arrsum + int(raw[0],16)
             cnt = cnt +1
-            continue 
+            continue
         if cnt == 2 and passage == 3:
             LByte = int(raw[0], 16)
             arrsum = arrsum + int(raw[0],16)
@@ -169,7 +169,7 @@ while True:
             sensors_data['Yaw'] = float( HByte*256 + LByte ) / 32768 * 180.0
             arrsum = arrsum + int(raw[0],16)
             cnt = cnt +1
-            continue   
+            continue
         if cnt == 8 and passage == 3:
             LByte = int(raw[0], 16)
             arrsum = arrsum + int(raw[0],16)
@@ -188,7 +188,7 @@ while True:
                 cnt = 0
         elif cnt == 10 and passage == 2:
             temp=str(hex(arrsum))[-2:]
-            if (temp == raw[0]):           
+            if (temp == raw[0]):
                 cnt = 0
         elif cnt == 10 and passage == 3:
             temp=str(hex(arrsum))[-2:]
@@ -203,8 +203,7 @@ while True:
                     print( "dump failed at " + time.strftime('%Y-%m-%d',time.localtime(time.time())) )
                 done = True
                 flag = 0
-                cnt = 0 
+                cnt = 0
     except:
         break
 bt_port.close()
-

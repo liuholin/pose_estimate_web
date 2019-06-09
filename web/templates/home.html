@@ -3,25 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>test</title>
-    <script src="/static/jquery-2.0.3.js"></script>
+    <script src="/static/js/jquery-2.0.3.js"></script>
 </head>
 <body>
-<div id="recv"></div>
+
+  <pre id = "recv"></pre>
+
 
 <script>
+          str = "";
     function check(){
         $.ajax({
         type: 'GET',
         url: '/api/',
         success:function (res) {
-            if (res.data < 120)
-                $('#recv').html("stand up")
-            else
-                $('#recv').html("lay")
+
+          str += "<p>" + res.data + "</p>";
+            $('#recv').html(str);
         }
     })
     }
-    setInterval(check, 300);
+    setInterval(check, 1000);
 </script>
 
 </body>
