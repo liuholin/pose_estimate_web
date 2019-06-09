@@ -6,24 +6,24 @@
     <script src="/static/js/jquery-2.0.3.js"></script>
 </head>
 <body>
-
-  <pre id = "recv"></pre>
-
+<pre id = "recv"></pre>
 
 <script>
-          str = "";
+    str = "";
     function check(){
         $.ajax({
         type: 'GET',
         url: '/api/',
         success:function (res) {
-
-          str += "<p>" + res.data + "</p>";
-            $('#recv').html(str);
-        }
+          //str += "<p>" + res.data + "</p>";
+            $('#recv').html(res.data);
+          }
     })
     }
-    setInterval(check, 1000);
+    //$.each(recv, function(key, value){
+    //  alert(key + "  " + value);
+    //});
+    setInterval(check, 100);
 </script>
 
 </body>

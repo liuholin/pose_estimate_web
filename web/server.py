@@ -46,6 +46,7 @@ class ServerHandler:
             self.recv_data(conn, addr)
 
     def recv_data(self, conn, addr):
+        web_data = {'core_node_name':'104', 'node':'N0040', 'status':'0'}
         while 1:
             data =conn.recv(1024)
             if not data:
@@ -53,8 +54,9 @@ class ServerHandler:
                 break
             try:
                 pickle_data = pickle.loads(data)
-                #print(type(pickle_data))
+                print(pickle_data)
                 #print(pickle_data['Pitch'])
+                #self.request_data.appendleft(str(web_data))
                 self.request_data.appendleft(str(pickle_data))
             except:
                 print('pickle.loads error')

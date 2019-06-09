@@ -18,9 +18,11 @@ def api():
         try:
             data = socket_server.request_data.pop()
             #print(123)
-            #print(type(data))
+            print(data)
         except IndexError:
-            data = 0
+            #data = 0
+            web_data = {'core_node_name':'104', 'node':'N0040', 'status':'0'}
+            data = str(web_data)
         return jsonify({"data":data})
 
 

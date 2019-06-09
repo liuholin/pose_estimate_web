@@ -14,7 +14,7 @@ done = False
 
 client = socket.socket()
 # host shoule be the web server IP
-host = '192.168.1.102'
+host = '192.168.1.117'
 port = 10010
 print("set down!")
 while True:
