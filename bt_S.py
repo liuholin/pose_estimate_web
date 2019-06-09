@@ -13,7 +13,7 @@ passage = 0
 done = False
 
 client = socket.socket()
-#host = '47.102.207.35'
+# host shoule be the web server IP
 host = '192.168.1.102'
 port = 10010
 print("set down!")
