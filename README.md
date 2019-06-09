@@ -9,6 +9,11 @@ scan your sensor device to find out its bluetooth address
 ```
 sudo bluetoothctl
 scan on 
+```
+the screen will be printed as the following
+```
+[NEW] Device 20:19:03:27:28:21 HC-06
+```
 exit
 ```
 change the bluetooth address in *rc.local*
@@ -28,4 +33,3 @@ the following operations please switch to your web server
 cd /var/www/html/web/
 python3 manange.py
 ```
-
