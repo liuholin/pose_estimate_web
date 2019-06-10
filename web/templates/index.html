@@ -2,30 +2,10 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>person_pose_estimator</title>
+<title>人体姿态估计系统</title>
 <!-- 引入 echarts.js -->
 <script src="/static/js/echarts.min.js"></script>
 <script src="/static/js/jquery-2.0.3.js"></script>
-<script>
-	    $(window).load(function() {
-		    var video=$("#video");
-			video.empty();
-			var selector;
-            var num=parseInt(prompt("请输入装备编号","1"));
-		    switch(num){
-		    case 1:
-			    selector="<iframe src='http://server.blackant.org:4201/video_2710.html' width='100%' height='100%' frameborder=0> </iframe>";
-			    break;
-		    case 2:
-			    selector="<iframe src='http://server.blackant.org:4201/video_2711.html' width='100%' height='100%' frameborder=0> </iframe>";
-			    break;
-        case 3:
-			    selector="<iframe src='http://server.blackant.org:4201/video_2712.html' width='100%' height='100%' frameborder=0> </iframe>";
-			    break;
-		    }
-			video.append(selector);
-         });
-	</script>
 <style>
 html, body {
 	height: 97%;
@@ -98,13 +78,12 @@ html, body {
 			<div id="charts"></div>
 			<div id="poses">
 				<img id="imgId" src="/static/img/down.png" width="100%" height="100%">
-                                <p class="hint">当前姿态：<span id="hint"></span></p>
+        <p class="hint">当前姿态：<span id="hint"></span></p>
 			</div>
 		</div>
 
 		<div id="video">
-			<iframe src='http://server.blackant.org:4201/video.html' width='100%'
-				height='100%' frameborder=0> </iframe>
+			<iframe src='http://server.blackant.org:4201/video.html' width='100%'	height='100%' frameborder=0> </iframe>
 		</div>
 	</div>
 
@@ -139,6 +118,59 @@ html, body {
         now = [seconds.getHours(), seconds.getMinutes(), seconds.getSeconds()].join(':');
         dateList.push(now);
 
+				$.ajax({
+				type: 'GET',
+				url: '/api/',
+				success:function (res) {
+					  console.log(res.data)
+					  current_data_yaw = res.data["Yaw"];
+			      current_data_roll = res.data["Roll"];
+			      current_data_pitch = res.data["Pitch"];
+			      predictions = res.data["status"];
+						/*
+						* explain the variable of predictions
+						* 0: lay
+						* 1: up
+						* 2: down
+						* 3: initialing
+						* 4: finished
+						* 5: disconnected, so show as initialing
+						* 6: run
+						*/
+
+						switch (predictions) {
+							case "0":
+								$("#hint").text("卧");
+								$("#imgId").attr('src', '/static/img/lay.png');
+								break;
+							case "1":
+								$("#hint").text("立");
+								$("#imgId").attr('src', '/static/img/up.png');
+								break;
+							case "2":
+								$("#hint").text("坐");
+								$("#imgId").attr('src', '/static/img/down.png');
+								break;
+							case "3":
+							// initial finished
+								$("#imgId").attr('src', '/static/img/finished.jpg');
+								break;
+							case "4":
+							// initialing
+								$("#imgId").attr('src', '/static/img/initial.jpg');
+								break;
+							case "5":
+							// disconnected
+								$("#imgId").attr('src', '/static/img/initial.jpg');
+								break;
+							default:
+							// run
+								$("#hint").text("运动中");
+								$("#imgId").attr('src', '/static/img/run.gif');
+								break;
+							}
+				}
+				})
         // $("#imgId").attr('src', 'img/run.gif');
 		    // $.ajax({
 		    //     type: 'GET',
@@ -152,55 +184,15 @@ html, body {
 		    //         current_data_roll = res.roll;
 		    //         current_data_pitch = res.pitch;
 		    //         predictions = res.predictions;
-				$.getJSON('/htbin/count.py', function(result) {
-						current_data_yaw_one = result.pitch_one;
-						current_data_yaw_two = result.pitch_two;
-						current_data_ridar = result.height;
-						predictions = result.predictions;
-		            /*
-		            * explain the variable of predictions
-		            * 0: lay
-		            * 1: up
-		            * 2: down
-		            * 3: initialing
-		            * 4: finished
-		            * 5: disconnected, so show as initialing
-		            * 6: run
-		            */
-
-		            switch (predictions) {
-		              case "0":
-		                $("#hint").text("卧");
-		                $("#imgId").attr('src', '/static/img/lay.png');
-		                break;
-		              case "1":
-		                $("#hint").text("立");
-		                $("#imgId").attr('src', '/static/img/up.png');
-		                break;
-		              case "2":
-		                $("#hint").text("坐");
-		                $("#imgId").attr('src', '/static/img/down.png');
-		                break;
-		              case "3":
-		              // initial finished
-		                $("#imgId").attr('src', '/static/img/finished.jpg');
-		                break;
-		              case "4":
-		              // initialing
-		                $("#imgId").attr('src', '/static/img/initial.jpg');
-		                break;
-		              case "5":
-		              // disconnected
-		                $("#imgId").attr('src', '/static/img/initial.jpg');
-		                break;
-		              default:
-		              // run
-		                $("#hint").text("运动中");
-		                $("#imgId").attr('src', '/static/img/run.gif');
-		                break;
-
-            }
-        });
+				// $.getJSON('/htbin/count.py', function(result) {
+				// 		current_data_yaw_one = result.pitch_one;
+				// 		current_data_yaw_two = result.pitch_two;
+				// 		current_data_ridar = result.height;
+				// 		predictions = result.predictions;
+				//
+				//
+        //     }
+        // });
 
         valueYawList.push(current_data_yaw);
         valueRollList.push(current_data_roll);
@@ -263,15 +255,15 @@ html, body {
 
         title: [{
             left: 'center',
-            text: 'yaw'
+            text: '偏航角'
         }, {
             top: '33%',
             left: 'center',
-            text: 'roll'
+            text: '翻滚角'
         }, {
             top: '67%',
             left: 'center',
-            text: 'pitch'
+            text: '俯仰角'
         }],
         tooltip: {
             trigger: 'axis'
