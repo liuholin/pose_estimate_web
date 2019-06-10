@@ -11,10 +11,12 @@ sensors_data = {"AX":0,"AY":0,"AZ":0,"GX":0,"GY":0,"GZ":0,"Row":0,"Pitch":0,"Yaw
 arrsum = 0
 passage = 0
 done = False
+# add a label to positioning
+core_node_position = '103'
 
 client = socket.socket()
 # host shoule be the web server IP
-host = '192.168.1.117'
+host = 'server.blackant.org'
 port = 10010
 print("set down!")
 while True:
@@ -196,8 +198,11 @@ while True:
             if(flag == 1000):
                 try:
                     print(sensors_data)
+                    sensors_data_cp = sensors_data.copy()
+                    # add label belong to the specific core node
+                    sensors_data_cp['core_node_name'] = core_node_position
                     #time.strftime('%Y-%m-%d',time.localtime(time.time()))
-                    web_data = pickle.dumps(sensors_data)
+                    web_data = pickle.dumps(sensors_data_cp)
                     #print(web_data)
                 except:
                     print( "dump failed at " + time.strftime('%Y-%m-%d',time.localtime(time.time())) )

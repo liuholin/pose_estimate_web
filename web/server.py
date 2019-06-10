@@ -46,7 +46,6 @@ class ServerHandler:
             self.recv_data(conn, addr)
 
     def recv_data(self, conn, addr):
-        web_data = {'core_node_name':'104', 'node':'N0040', 'status':'0'}
         while 1:
             data =conn.recv(1024)
             if not data:
@@ -54,15 +53,42 @@ class ServerHandler:
                 break
             try:
                 pickle_data = pickle.loads(data)
-                print(pickle_data)
+                print('pickle_data ', pickle_data)
                 #print(pickle_data['Pitch'])
-                #self.request_data.appendleft(str(web_data))
-                self.request_data.appendleft(str(pickle_data))
+                web_data = pickle_data.copy() 
+                print(web_data)
+                web_data['node'] = 'N0040'
+                if 'core_node_name' not in web_data:
+                    web_data['core_node_name'] = '104'
+                if web_data['Pitch'] > 90:
+                    web_data['status'] = '0'
+                else:
+                    web_data['status'] = '1'
+#                web_data_str = handle_data(pickle_data)
+                print('web_data 2 ', web_data)
+                web_data_str = str(web_data)
+                #self.request_data.appendleft(str(pickle_data))
+                self.request_data.appendleft(web_data_str)
             except:
                 print('pickle.loads error')
                 continue
 
         conn.close()
+
+    def handle_data(pickle_data):
+        print('pickle2 ', pickle_data)
+        web_data = pickle_data.copy() 
+        print(web_data)
+        web_data['node'] = 'N0040'
+        if 'core_node_name' not in web_data:
+            web_data['core_node_name'] = '104'
+        if web_data['Pitch'] > 90:
+            web_data['status'] = '0'
+        else:
+            web_data['status'] = '1'
+        print(web_data)
+        return str(web_data)
+
 
     def run(self):
         request_thread = threading.Thread(target=self.request)
