@@ -77,7 +77,7 @@ html, body {
 		<div id="data">
 			<div id="charts"></div>
 			<div id="poses">
-				<img id="imgId" src="/static/img/down.png" width="100%" height="100%">
+				<img id="imgId" src="/static/img/init.png" width="100%" height="100%">
         <p class="hint">当前姿态：<span id="hint"></span></p>
 			</div>
 		</div>
@@ -139,60 +139,18 @@ html, body {
 						*/
 
 						switch (predictions) {
+							// normal
 							case "0":
-								$("#hint").text("卧");
-								$("#imgId").attr('src', '/static/img/lay.png');
-								break;
-							case "1":
-								$("#hint").text("立");
-								$("#imgId").attr('src', '/static/img/up.png');
-								break;
-							case "2":
-								$("#hint").text("坐");
-								$("#imgId").attr('src', '/static/img/down.png');
-								break;
-							case "3":
-							// initial finished
-								$("#imgId").attr('src', '/static/img/finished.jpg');
-								break;
-							case "4":
-							// initialing
-								$("#imgId").attr('src', '/static/img/initial.jpg');
-								break;
-							case "5":
-							// disconnected
-								$("#imgId").attr('src', '/static/img/initial.jpg');
+								$("#hint").text("正常");
 								break;
 							default:
-							// run
-								$("#hint").text("运动中");
-								$("#imgId").attr('src', '/static/img/run.gif');
+							// abnormal
+								$("#hint").text("异常");
 								break;
 							}
 				}
 				})
-        // $("#imgId").attr('src', 'img/run.gif');
-		    // $.ajax({
-		    //     type: 'GET',
-		    //     url: '/api/',
-		    //     success:function (res) {
-		    //         // if (res.data < 120)
-		    //         //     $('#recv').html("stand up")
-		    //         // else
-		    //         //     $('#recv').html("lay")
-				//         current_data_yaw = res.yaw;
-		    //         current_data_roll = res.roll;
-		    //         current_data_pitch = res.pitch;
-		    //         predictions = res.predictions;
-				// $.getJSON('/htbin/count.py', function(result) {
-				// 		current_data_yaw_one = result.pitch_one;
-				// 		current_data_yaw_two = result.pitch_two;
-				// 		current_data_ridar = result.height;
-				// 		predictions = result.predictions;
-				//
-				//
-        //     }
-        // });
+
 
         valueYawList.push(current_data_yaw);
         valueRollList.push(current_data_roll);
