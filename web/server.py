@@ -53,19 +53,16 @@ class ServerHandler:
                 break
             try:
                 pickle_data = pickle.loads(data)
-                print('pickle_data ', pickle_data)
-                #print(pickle_data['Pitch'])
-                web_data = pickle_data.copy() 
-                print(web_data)
+                web_data = pickle_data.copy()
                 web_data['node'] = 'N0040'
                 if 'core_node_name' not in web_data:
                     web_data['core_node_name'] = '104'
-                if web_data['Pitch'] > 90:
+                if web_data['Pitch'] > 120:
                     web_data['status'] = '0'
                 else:
                     web_data['status'] = '1'
+                print(web_data)
 #                web_data_str = handle_data(pickle_data)
-                print('web_data 2 ', web_data)
                 web_data_str = str(web_data)
                 #self.request_data.appendleft(str(pickle_data))
                 self.request_data.appendleft(web_data_str)
@@ -76,13 +73,11 @@ class ServerHandler:
         conn.close()
 
     def handle_data(pickle_data):
-        print('pickle2 ', pickle_data)
-        web_data = pickle_data.copy() 
-        print(web_data)
+        web_data = pickle_data.copy()
         web_data['node'] = 'N0040'
         if 'core_node_name' not in web_data:
             web_data['core_node_name'] = '104'
-        if web_data['Pitch'] > 90:
+        if web_data['Pitch'] > 120:
             web_data['status'] = '0'
         else:
             web_data['status'] = '1'
