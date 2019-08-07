@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>person_pose_estimator</title>
+    <script type="text/javascript">
+           
+            //以下是获取原有div的内容再添加到动态生成的div中
+            var divs = 0,number = 0;//divs是创建各个控件时赋值变量ID所用，number是计数用
+            var str = "请输入姓名";
+            var addDiv = function () {
+                var name = prompt(str,"Z.chao");
+                if(name==null) return;
+                // if (number == 5) return;//最多添加5个div
+
+                var oDiv = document.createElement("div");
+                document.getElementById("parent").appendChild(oDiv);
+                oDiv.id = "div_" + divs;
+                oDiv.className = "col-sm-4";
+
+              /*  var iDiv = document.createElement("div");
+                iDiv.className="card border-success mb-3";
+                iDiv.style = "max-width: 18rem";
+                iDiv.span*/
+         
+                var _div = document.getElementById("father").innerHTML;
+                console.log(document.getElementById("father"));
+                // document.getElementById(oDiv.id).innerHTML = _div;
+                var list = document.getElementById(oDiv.id);
+                document.getElementById(oDiv.id).innerHTML = _div;
+                //console.log(div_0);
+                var x = document.getElementsByTagName("span")[number*2+2];
+                console.log(x);
+                x.innerHTML=name;
+
+                var y = document.getElementsByClassName("people_pose")[number+1];
+                console.log(y);
+                y.id="People"+number;
+                //console.log(del);
+                // //添加提交、放弃button
+                // var commit = document.createElement("input");
+                // commit.type = "button";
+                // commit.value = "提交";
+                // commit.id = "com_" + divs;
+                // commit.className = "btn btn-success";
+                // commit.style.marginTop = "10px";
+                // commit.style.marginLeft = "220px";
+                // oDiv.appendChild(commit);
+                // var dele = document.createElement("input");
+                // dele.type = "button";
+                // dele.value = "放弃";
+                // dele.id = "dele_" + divs;
+                // dele.className = "btn btn-grey";
+                // dele.style.marginTop = "10px";
+                // dele.style.marginLeft = "50px";
+                // oDiv.appendChild(dele);
+                // //为dele添加事件的监听
+                // dele.onclick = remove;
+
+                divs++;
+                number++;
+            }
+            function remove() {
+
+                // removeNode(true);
+                number--;
+            }
+var i = 0;
+           function test() {
+               //people0作为测试,使用时检查所有people
+              var s = document.getElementById("People0").textContent;
+              console.log(s);
+              if(s=="Normal"){//实际上应该为Inmormal,但为了突出效果
+                var m = document.getElementsByClassName("card")[number];
+                console.log(m);
+                blink();
+                plysond();
+
+
+              }
+            }
+
+
+
+
+            function blink() {
+             var m = document.getElementsByClassName("card")[number];
+              if(i%2==0){
+                    setTimeout(m.className="card border-dark mb-3",10);
+                  }
+                  if(i%2==1){
+                    setTimeout(m.className="card border-danger mb-3",10);
+                  }
+                  i++;
+            }
+//每经过三秒在执行一次test函数
+            (function(){
+
+                setInterval(test, 300);
+
+
+
+            })();
+
+
+
+
+
+
+        </script>
+
+  </head>
+  <div>
+
+
+    <div id="rows1" class="container">
+      <div id="parent" class="row">
+        <div id="father" class="col-sm-4">
+          <div class="card border-success mb-3" style="max-width: 18rem;border-width: 5px;">
+            <div class="card-header">
+              <span>Z.chao</span>
+              <button id="close" type="button" class="close" onclick="remove()" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="card-body text-success">
+              <h1 class="card-title text-center people_pose">Normal</h1>
+              <p class="card-text invisible">Some quick example text to build on the card title and make up the.</p>
+            </div>
+          </div>
+       </div>
+
+
+
+
+
+        </div>
+      </div>
+    </div>
+
+  <div class="container">
+    <div class="row">
+       <div id="last2" class="col-sm-4">
+          <div class="card bg-light mb-3" style="max-width: 18rem;">
+            <!-- Image trigger modal -->
+            <!-- <img class="card-img-top" src="../static/img/initial.png" alt="Card image cap" data-toggle="modal" data-target="#exampleModalCenter"> -->
+            <img class="card-img-top" src="../static/img/initial.png" onclick="addDiv()">
+          </div>
+        </div>
+    </div>
+  </div>
+
+
+
+      <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>
