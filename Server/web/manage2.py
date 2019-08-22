@@ -38,7 +38,7 @@ def home():
 
 
 @app.route('/api/', methods=['GET', 'POST'])
-def api():
+def api():#读取数据库并且将病人信息数据传递到前端
     if request.method == 'POST':
         data = request.form['data']
         nam=data[:-1]#最后一位是id
@@ -62,22 +62,23 @@ def api():
             return jsonify({'result': 1})
         else:
             return jsonify({'result': 0})
+#获取前端的病人姓名与id信息，将其记录到数据库中
     else:
         try:
-            conn = sqlite3.connect('test.db')
+            conn = sqlite3.connect('test.db')#数据库第一列是id，第二列为姓名
             print("Opened database successfully")
             cursor = conn.execute("SELECT id, name from PATIENT")
-            tzz = []
-            count = 0
+            data_pack = []#用于将id与姓名打包成键值，并按顺序赋予数字键名
+            count = 0#数字键名
             for row in cursor:
-                pp = [str(count), str(row[0]) + row[1]]
+                item = [str(count), str(row[0]) + row[1]]
                 print("ID = ", row[0])
                 print("NAME = ", row[1])
                 count = count + 1
-                tzz.append(pp)
-            tzz.append(['number', count])
-            tzz = dict(tzz)
-            print(tzz)
+                data_pack.append(item)
+            data_pack.append(['number', count])
+            data_pack = dict(data_pack)
+            print(data_pack)
             data = socket_server.request_data.pop()
             #print(123)
             # print(data)
@@ -85,13 +86,13 @@ def api():
             #data = 0
 #            web_data = {'core_node_name':'104', 'node':'N0040', 'status':'0'}
 #            data = str(web_data)
-            data= str(tzz)
+            data= str(data_pack)
 #        print( jsonify({"data":json.loads(data.replace("'", '"'))}))
         return jsonify({"data":json.loads(data.replace("'", '"'))})
 
 
 
-
+#获取前端传递过来的病人id，并按id删除病人数据
 @app.route('/api2/', methods=['GET', 'POST'])
 def api2():
     #从删库到跑路

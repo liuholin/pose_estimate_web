@@ -23,7 +23,7 @@ var number = 0//number用于存放元素个数
                 url: '/api/',
                 success:function (res) {
                   console.log(res.data)
-                    var id="";//临时存放id与姓名
+                    var id="";//用于临时存放id与姓名
                     var nam="";
                   var i=0;
                   var num = res.data['number'];
@@ -97,12 +97,17 @@ var number = 0//number用于存放元素个数
             function check() {
               var j=0;
               for(;j<number;j++) {
-                  var check_info = document.getElementsByClassName("people_pose")[j + 1].textContent;
-                  if (check_info == "Normal") {
-                      var warning_div = document.getElementsByClassName("card")[j + 1];
-                      blink(warning_div);
- //                     plysond();
+                  var status_info = document.getElementsByClassName("people_pose")[j + 1].textContent;
+                  if (status_info == "Normal") {
+                      var mm = document.getElementsByClassName("card")[j + 1];
+                      blink(mm);
+//                      plysond();
+
                   }
+                  if(status_info == "Innormal"){
+                    var mm = document.getElementsByClassName("card")[j + 1];
+                    mm.className="card border-success mb-3";
+                  }//恢复正常显示
               }
             }
 
@@ -110,6 +115,8 @@ var number = 0//number用于存放元素个数
 
                 var pl = document.getElementById("snd").play();
                 console.log(pl)
+
+
             }
 
 
@@ -118,7 +125,7 @@ var number = 0//number用于存放元素个数
             function blink(m){
                 console.log(m);
                 var t = 0;
-                for(;t<300;t++){
+                for(;t<30;t++){
                     if(t%2==0){
 
                     setTimeout(function(){m.className="card border-dark mb-3"},100*t);
@@ -129,10 +136,53 @@ var number = 0//number用于存放元素个数
                   }
 
                 }
+                setTimeout(function(){m.className="card border-succcess mb-3"},100*t)
+
+            }//闪烁完毕后恢复正常
+            var down_time = 0;
+            var up_time = 0;
+            function setting(){//定时功能，假如起始时间晚于结束时间，则结束时间按第二天的算
+                var start = document.getElementById("strat").value;
+                var end = document.getElementById("end").value;
+                var start_h = parseInt(start.toString().slice(0,2))
+                var end_h = parseInt(end.toString().slice(0,2))
+                var start_m= parseInt(start.toString().slice(3))
+                var end_m= parseInt(start.toString().slice(3))
+
+                var down_mins = start_h*60+start_m;
+                var up_mins = end_h*60+end_m;
+                down_time=down_mins;
+                up_time= up_mins;
+
+
+
 
             }
-//每过三秒检查一遍所有人
-            setInterval(check, 3000);
+
+            function check_time(){
+              var date_hour=new Date().getHours();
+              var date_min=new Date().getMinutes();
+              var now_mins = date_hour*60+date_min;
+              console.log(down_time);
+              console.log(up_time);
+              //一天之内
+              if(down_time<up_time) {
+                if (now_mins >= down_time && now_mins <= up_time && down_time != 0) {
+                  check();
+                }
+              }
+              //过十二点
+              else{
+                if (now_mins <= up_time || now_mins >= down_time && down_time != 0) {
+                  check();
+                }
+              }
+            }
+
+
+
+            //每过三秒检查一遍所有人
+            setInterval(check_time, 3000);
 
 
         </script>
@@ -142,8 +192,8 @@ var number = 0//number用于存放元素个数
 
   </head>
 
-<Audio id="snd" loop="1" src="../static/warning.wav" ></Audio>
-
+<Audio id="snd"  src="../static/warning_test.mp3" /></Audio>
+  <h1 class="page-header" align="center">多人体姿态监护</h1>
     <div id="rows1" class="container">
       <div id="parent" class="row">
         <div id="father" class="col-sm-4">
@@ -177,7 +227,9 @@ var number = 0//number用于存放元素个数
         </div>
     </div>
   </div>
-
+  <label>开始时间：</label><input id="strat" type="time"/>
+  <label>结束时间：</label><input id="end" type="time"/>
+  <input type="button" value="提交" onclick="setting()"/>
       <!-- Optional JavaScript -->
 <!--    &lt;!&ndash; jQuery first, then Popper.js, then Bootstrap JS &ndash;&gt;-->
 <!--    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
