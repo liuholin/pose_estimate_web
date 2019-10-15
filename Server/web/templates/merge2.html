@@ -118,7 +118,22 @@ var number = 0//number用于存放元素个数
 
 
             }
-
+//数据更新      
+      function update(){
+        $.ajax({
+                type: 'GET',
+                url: '/api/',
+                success:function (res) {
+                  console.log(res.data) 
+                  //这一段用来接收id与状态信息，赋予下面的两个变量。
+                }
+            });
+        var new_status ="";//传过来的状态信息
+        var updateID = 0;//设备号ID
+        eleID = "People"+updateID;//确认需要修改的病人信息id
+        document.getElementsById(eleID).context = new_status;        
+      }
+ setInterval(update, 300); //每0.3秒执行一次数据更新
 
 
 //边框闪烁
